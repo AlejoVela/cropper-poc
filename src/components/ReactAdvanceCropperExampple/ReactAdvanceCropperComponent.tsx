@@ -44,6 +44,7 @@ export const ReactAdvanceCropperComponent = () => {
       <div className="cropper__container">
         <input type="file" onChange={onChargeImage} />
         <Cropper
+          style={{ height: 400, width: "100%" }}
           ref={cropperRef}
           stencilComponent={RectangleStencil}
           stencilProps={{
