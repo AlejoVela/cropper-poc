@@ -12,9 +12,17 @@ export const CropperPage = () => {
     <CropperProvider>
       <div className="flex-container">
         <div className="flex-col">
-          <button onClick={() => setIsCropperJs(!isCropperJs)}>Change Cropper</button>
-          <h1>{isCropperJs ? 'React Cropper JS' : 'React Advance Cropper'}</h1>
-          {isCropperJs ? <CropperExampleComponent /> : <ReactAdvanceCropperComponent />}
+          <button className='button' onClick={() => setIsCropperJs(!isCropperJs)}>
+            Change Cropper
+          </button>
+          <h1 style={{ fontSize: "26px", marginTop: '10px' }}>
+            {isCropperJs ? "React Cropper JS" : "React Advance Cropper"}
+          </h1>
+          {isCropperJs ? (
+            <CropperExampleComponent />
+          ) : (
+            <ReactAdvanceCropperComponent />
+          )}
         </div>
         <div className="flex-col">
           <InvoiceComponent />

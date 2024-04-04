@@ -1,19 +1,32 @@
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import styles from "./ReactAdvanceCropperComponent.scss?inline";
 import { CropperContext } from "src/context/CropperContext";
-import { Cropper, CropperRef, RectangleStencil, CircleStencil } from "react-advanced-cropper";
+import {
+  Cropper,
+  CropperRef,
+  RectangleStencil,
+  CircleStencil,
+} from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import { gatoImg } from "@assets/index";
+import { StencilStyles } from "./types/ReactAdvanceCropperTypes";
 gatoImg;
 
 export const ReactAdvanceCropperComponent = () => {
   const cropperRef = useRef<CropperRef>(null);
   const { image: cropperImage, onChangeImage } = useContext(CropperContext);
-  const [ isRectangle, setIsRectangle ] = useState(true);
+  const [isRectangle, setIsRectangle] = useState(true);
 
   const [image, setImage] = useState(cropperImage);
   const [prevImage, setPrevImage] = useState("#");
   const [cropImage, setCropImage] = useState("#");
+
+  const [stencilProps, setStencilProps] = useState<StencilStyles>({
+    aspectRatio: 9 / 5,
+    movable: true,
+    resizable: true,
+    grid: true,
+  });
 
   const onChargeImage = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -27,13 +40,11 @@ export const ReactAdvanceCropperComponent = () => {
   };
 
   const onChange = (cropper: CropperRef) => {
-    //console.log(cropper.getCoordinates());
     setPrevImage(cropper.getCanvas()?.toDataURL() as string);
   };
 
   const onCrop = () => {
     if (cropperRef.current) {
-      // setCoordinates(cropperRef.current.getCoordinates());
       setCropImage(cropperRef.current.getCanvas()?.toDataURL() as string);
     }
   };
@@ -61,22 +72,21 @@ export const ReactAdvanceCropperComponent = () => {
   return (
     <>
       <div className="cropper__container">
-        <input type="file" onChange={onChargeImage} />
+        <input
+          className="cropper__button "
+          type="file"
+          onChange={onChargeImage}
+        />
         <Cropper
           style={{ height: 400, width: "100%" }}
           ref={cropperRef}
           stencilComponent={isRectangle ? RectangleStencil : CircleStencil}
-          stencilProps={{
-            aspectRatio: 9 / 5,
-            movable: true,
-            resizable: true,
-            grid: true,
-          }}
+          stencilProps={stencilProps}
           src={image}
           onChange={onChange}
           className={"cropper"}
         />
-        <div className="cropper__mini-buttons">
+        <div className="cropper__options">
           <button
             className="cropper__button cropper__button--mini"
             onClick={() => onChangeCanvas()}
@@ -107,6 +117,53 @@ export const ReactAdvanceCropperComponent = () => {
           >
             Horizontal
           </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onFlip(true, false)}
+          >
+            Horizontal
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() =>
+              setStencilProps({ ...stencilProps, grid: !stencilProps.grid })
+            }
+          >
+            Grid
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() =>
+              setStencilProps({
+                ...stencilProps,
+                movable: !stencilProps.movable,
+              })
+            }
+          >
+            Movable
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() =>
+              setStencilProps({
+                ...stencilProps,
+                resizable: !stencilProps.resizable,
+              })
+            }
+          >
+            Resizable
+          </button>
+          <input
+            onBlur={(e) =>
+              setStencilProps({
+                ...stencilProps,
+                aspectRatio: parseInt(e.target.value),
+              })
+            }
+            className="cropper__input-option"
+            type="text"
+            placeholder="Aspect ratio, example: 9 / 5"
+          />
         </div>
         <button
           className="cropper__button cropper__button--full-width"

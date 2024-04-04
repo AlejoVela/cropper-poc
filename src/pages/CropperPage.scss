@@ -3,7 +3,6 @@
 }
 .flex-container {
   display: flex;
-  align-items: center;
   flex-direction: row;
   padding: 20px;
   .flex-col:first-child {
@@ -11,5 +10,27 @@
   }
   .flex-col:last-child {
     width: 60%;
+  }
+
+  .button {
+    padding: 7px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #007ecc;
+    color: white;
+
+    &:hover {
+      background-color: #005b8b;
+    }
+
+    &--full-width {
+      width: 100%;
+    }
+
+    &--mini {
+      margin: 0;
+    }
   }
 }
