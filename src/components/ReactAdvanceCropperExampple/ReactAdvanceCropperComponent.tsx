@@ -46,12 +46,6 @@ export const ReactAdvanceCropperComponent = () => {
     setPrevImage(cropper.getCanvas()?.toDataURL() as string);
   };
 
-  const onZoom = (zoom: number) => {
-    if (cropperRef.current) {
-      cropperRef.current.zoomImage(zoom);
-    }
-  }
-
   const onCrop = () => {
     if (cropperRef.current) {
       setCropImage(cropperRef.current.getCanvas()?.toDataURL() as string);
@@ -60,6 +54,12 @@ export const ReactAdvanceCropperComponent = () => {
 
   const onChangeCanvas = () => {
     setIsRectangle(!isRectangle);
+  };
+
+  const onZoom = (zoom: number) => {
+    if (cropperRef.current) {
+      cropperRef.current.zoomImage(zoom);
+    }
   };
 
   const onRotate = (angule: number) => {
@@ -76,9 +76,9 @@ export const ReactAdvanceCropperComponent = () => {
 
   const onMove = (axisX: number, axisY: number) => {
     if (cropperRef.current) {
-        cropperRef.current.moveImage(axisX, axisY); // move x = 50, y = 100
+      cropperRef.current.moveImage(axisX, axisY); // move x = 50, y = 100
     }
-};
+  };
 
   useEffect(() => {
     onChangeImage(cropImage);
@@ -87,11 +87,7 @@ export const ReactAdvanceCropperComponent = () => {
   return (
     <>
       <div className="cropper__container">
-        <input
-          className="cropper__button"
-          type="file"
-          onChange={onLoadImage}
-        />
+        <input className="cropper__button" type="file" onChange={onLoadImage} />
         <Cropper
           style={{ height: 400, width: "100%" }}
           ref={cropperRef}
@@ -167,12 +163,6 @@ export const ReactAdvanceCropperComponent = () => {
             onClick={() => onFlip(true, false)}
           >
             <i className="fa-solid fa-arrows-left-right"></i>
-          </button>
-          <button
-            className="cropper__button cropper__button--mini"
-            onClick={() => onFlip(true, false)}
-          >
-            Horizontal
           </button>
           <button
             className="cropper__button cropper__button--mini"
