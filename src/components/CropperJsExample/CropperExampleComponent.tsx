@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  createRef,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, createRef, useContext, useEffect, useState } from "react";
 import { Cropper, ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import styles from "./CropperExampleComponent.scss?inline";
@@ -38,51 +32,75 @@ export const CropperExampleComponent = () => {
   }, [cropData]);
 
   return (
-    <div>
-      <div style={{ width: "100%" }}>
-        <input type="file" onChange={(e) => onChange(e)} />
-        <button>Use default img</button>
-        <br />
-        <br />
-        <Cropper
-          ref={cropperRef}
-          style={{ height: 400, width: "90%" }}
-          zoomTo={0.5}
-          initialAspectRatio={1}
-          preview=".img-preview"
-          src={image}
-          viewMode={1}
-          minCropBoxHeight={10}
-          minCropBoxWidth={10}
-          background={false}
-          responsive={true}
-          autoCropArea={1}
-          checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-          guides={true}
+    <div className="cropper__container">
+      <input
+        className="cropper__button"
+        type="file"
+        onChange={(e) => onChange(e)}
+      />
+      <Cropper
+        ref={cropperRef}
+        style={{ height: 400, width: "100%" }}
+        zoomTo={0.5}
+        initialAspectRatio={1}
+        preview=".img-preview"
+        src={image}
+        viewMode={1}
+        minCropBoxHeight={10}
+        minCropBoxWidth={10}
+        background={false}
+        responsive={true}
+        autoCropArea={1}
+        checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+        guides={true}
+      />
+      {/* <div className="cropper__options">
+        <button className="cropper__button cropper__button--mini">
+          Canvas Style
+        </button>
+        <button className="cropper__button cropper__button--mini">left</button>
+        <button className="cropper__button cropper__button--mini">Right</button>
+        <button className="cropper__button cropper__button--mini">
+          Vertical
+        </button>
+        <button className="cropper__button cropper__button--mini">
+          Horizontal
+        </button>
+        <button className="cropper__button cropper__button--mini">
+          Horizontal
+        </button>
+        <button className="cropper__button cropper__button--mini">Grid</button>
+        <button className="cropper__button cropper__button--mini">
+          Movable
+        </button>
+        <button className="cropper__button cropper__button--mini">
+          Resizable
+        </button>
+        <input
+          className="cropper__input-option"
+          type="text"
+          placeholder="Aspect ratio, example: 9 / 5"
         />
-      </div>
-      <div>
-        <div className="box" style={{ width: "50%", float: "right" }}>
-          <h1>Preview</h1>
+      </div> */}
+      <button
+        className="cropper__button cropper__button--full-width"
+        onClick={getCropData}
+      >
+        Crop
+      </button>
+      <div className="images__container">
+        <div className="image__card">
+          <h2 className="image__title">Preview</h2>
+          {/* img-preview class is needed to render the preview image */}
           <div
-            className="img-preview"
-            style={{ width: "100%", float: "left", height: "300px" }}
+            className="img-preview image"
           />
         </div>
-        <div
-          className="box"
-          style={{ width: "50%", float: "right", height: "300px" }}
-        >
-          <h1>
-            <span>Crop</span>
-            <button style={{ float: "right" }} onClick={getCropData}>
-              Crop Image
-            </button>
-          </h1>
-          <img style={{ width: "100%" }} src={cropData} alt="cropped" />
+        <div className="image__card">
+          <h2 className="image__title">Cropped Image</h2>
+          <img className="image" src={cropData} alt="cropped" />
         </div>
       </div>
-      <br style={{ clear: "both" }} />
       <style>{`
         ${styles}
       `}</style>

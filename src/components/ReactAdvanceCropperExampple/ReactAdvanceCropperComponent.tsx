@@ -28,7 +28,10 @@ export const ReactAdvanceCropperComponent = () => {
     grid: true,
   });
 
-  const onChargeImage = (event: ChangeEvent<HTMLInputElement>) => {
+  const movePixelTranslate = 10;
+  const anguloRotation = 45;
+
+  const onLoadImage = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const files = event.target.files;
     const reader = new FileReader();
@@ -42,6 +45,12 @@ export const ReactAdvanceCropperComponent = () => {
   const onChange = (cropper: CropperRef) => {
     setPrevImage(cropper.getCanvas()?.toDataURL() as string);
   };
+
+  const onZoom = (zoom: number) => {
+    if (cropperRef.current) {
+      cropperRef.current.zoomImage(zoom);
+    }
+  }
 
   const onCrop = () => {
     if (cropperRef.current) {
@@ -65,6 +74,12 @@ export const ReactAdvanceCropperComponent = () => {
     }
   };
 
+  const onMove = (axisX: number, axisY: number) => {
+    if (cropperRef.current) {
+        cropperRef.current.moveImage(axisX, axisY); // move x = 50, y = 100
+    }
+};
+
   useEffect(() => {
     onChangeImage(cropImage);
   }, [cropImage]);
@@ -73,9 +88,9 @@ export const ReactAdvanceCropperComponent = () => {
     <>
       <div className="cropper__container">
         <input
-          className="cropper__button "
+          className="cropper__button"
           type="file"
-          onChange={onChargeImage}
+          onChange={onLoadImage}
         />
         <Cropper
           style={{ height: 400, width: "100%" }}
@@ -95,27 +110,63 @@ export const ReactAdvanceCropperComponent = () => {
           </button>
           <button
             className="cropper__button cropper__button--mini"
-            onClick={() => onRotate(-90)}
+            onClick={() => onZoom(2)}
           >
-            left
+            <i className="fa-solid fa-magnifying-glass-plus"></i>
           </button>
           <button
             className="cropper__button cropper__button--mini"
-            onClick={() => onRotate(90)}
+            onClick={() => onZoom(0.5)}
           >
-            Right
+            <i className="fa-solid fa-magnifying-glass-minus"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onMove(0, -movePixelTranslate)}
+          >
+            <i className="fa-solid fa-arrow-up"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onMove(0, movePixelTranslate)}
+          >
+            <i className="fa-solid fa-arrow-down"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onMove(-movePixelTranslate, 0)}
+          >
+            <i className="fa-solid fa-arrow-left"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onMove(movePixelTranslate, 0)}
+          >
+            <i className="fa-solid fa-arrow-right"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onRotate(-anguloRotation)}
+          >
+            <i className="fa-solid fa-rotate-left"></i>
+          </button>
+          <button
+            className="cropper__button cropper__button--mini"
+            onClick={() => onRotate(anguloRotation)}
+          >
+            <i className="fa-sharp fa-solid fa-rotate-right"></i>
           </button>
           <button
             className="cropper__button cropper__button--mini"
             onClick={() => onFlip(false, true)}
           >
-            Vertical
+            <i className="fa-solid fa-arrows-up-down"></i>
           </button>
           <button
             className="cropper__button cropper__button--mini"
             onClick={() => onFlip(true, false)}
           >
-            Horizontal
+            <i className="fa-solid fa-arrows-left-right"></i>
           </button>
           <button
             className="cropper__button cropper__button--mini"
@@ -173,7 +224,7 @@ export const ReactAdvanceCropperComponent = () => {
         </button>
         <div className="images__container">
           <div className="image__card">
-            <h2 className="image__title">Previous</h2>
+            <h2 className="image__title">Preview</h2>
             <img className="image" src={prevImage ?? image} alt="cropped" />
           </div>
           <div className="image__card">

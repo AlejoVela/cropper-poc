@@ -1,8 +1,65 @@
-.box {
-  display: inline-block;
-  padding: 10px;
-  box-sizing: border-box;
-}
-.img-preview {
-  overflow: hidden;
+.cropper {
+  &__container {
+    width: 100%;
+    padding-right: 20px;
+    box-sizing: border-box;
+
+    .images__container {
+      display: flex;
+      width: 100%;
+
+      .image__card {
+        width: 50%;
+        padding: 10px;
+        box-sizing: border-box;
+        .image__title {
+          text-align: center;
+          margin-bottom: 10px;
+        }
+        .image {
+          width: 100%;
+          min-height: 300px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  &__options {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__input-option {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  &__button {
+    margin: 10px auto;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #007ecc;
+    color: white;
+
+    &:hover {
+      background-color: #005b8b;
+    }
+
+    &--full-width {
+      width: 100%;
+    }
+
+    &--mini {
+      margin: 0;
+    }
+  }
 }
